@@ -63,7 +63,7 @@ if __name__ == "_main_":
     endPage = int(raw_input("请输入终止页："))
 
     url = "http://tieba.baidu.com/f?"
-    key = urllib.urlencode({"kw" : kw})
+    key = urllib.urlencode({"kw": kw})
 
     #组合后的url实例http://tieba.baidu.com/f?kw=lol
     url = url + key

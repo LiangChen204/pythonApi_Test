@@ -5,6 +5,8 @@
 import sys
 
 # 定义常量类
+
+
 class _const:
     class ConstError(TypeError):
         pass

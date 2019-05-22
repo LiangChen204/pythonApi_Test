@@ -18,6 +18,7 @@ def parseParams(paramIn):
             paramOut[key] = ""
     return paramOut
 
+
 def getSign(paramsMap, token=''):
     params = parseParams(paramsMap)
     appKey = params['appKey']
@@ -28,6 +29,7 @@ def getSign(paramsMap, token=''):
     params['token'] = token
 
     return generateSign(params)
+
 
 def encode(origin):
     if origin:
@@ -42,10 +44,9 @@ def encode(origin):
 
     else:
         return "MULTI_000523"
-#
-#
-def generateSign(params):
 
+
+def generateSign(params):
     keys = sorted(params.keys())
     UN_PARTICIPATE_PARAMS = ["sign"]
     query = ''
@@ -62,3 +63,35 @@ def generateSign(params):
                 query += key + "=" + value
 
     return encode(query)
+
+
+def requset2sign(request):
+    # type = re.findall(r'json|params|data', str(request.keys()))[0]
+    # paramsMap = request[type]
+    # print('获取到入参为:\n' + str(request) + '\n开始计算sign')
+    if 'token' in request.keys():
+        # print('获取到token：\n' + request['token'])
+        sign = getSign(request, request['token'])
+    else:
+        # print('未获取到token')
+        sign = getSign(request)
+    # print('计算sign值为：\n' + sign)
+    return sign
+
+
+# if __name__ == '__main__':
+#     appKey = "300001"
+#     uid = "15157481507"
+#     equipmentId = "e10001"
+#     timestamp = "1446801341607"
+#     sign = "7F2EEB98A37C7F8CEF7AD715F6AE8562"
+#     paramsMap = {}
+#     paramsMap["appKey"] = appKey
+#     paramsMap["uid"] = uid
+#     paramsMap["equipmentId"] = equipmentId
+#     paramsMap["timestamp"] = timestamp
+#     paramsMap["sign"] = sign
+#     print(paramsMap)
+#     print(getSign(paramsMap, "MzdmZTgzOGFhYTI3NWZhNjMyMDQ4MDJlOTI2MWU3YzI="))
+#     print(generateSign(paramsMap))
+#     print(requset2sign(paramsMap))

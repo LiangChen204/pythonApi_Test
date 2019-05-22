@@ -1,0 +1,9 @@
+[2019-02-11 12:06:04] DEBUG [_new_conn: connectionpool.py, 205] Starting new HTTP connection (1): 127.0.0.1:8888
+[2019-02-11 12:06:05] DEBUG [_make_request: connectionpool.py, 393] http://127.0.0.1:8888 "POST http://115.28.108.130:5000/api/user/login/%0A HTTP/1.1" 200 21
+[2019-02-11 12:06:05] INFO [test_user_login_normal: test_user_login.py, 28] 测试用例：test_user_login_normal
+[2019-02-11 12:06:05] INFO [test_user_login_normal: test_user_login.py, 29] url：http://115.28.108.130:5000/api/user/login/
+
+[2019-02-11 12:06:05] INFO [test_user_login_normal: test_user_login.py, 30] 请求参数：{"name": "张三","password":"123456"}
+
+[2019-02-11 12:06:05] INFO [test_user_login_normal: test_user_login.py, 31] 期望结果：<h1>登录成功</h1>
+[2019-02-11 12:06:05] INFO [test_user_login_normal: test_user_login.py, 32] 实际结果：<h1>登录成功</h1>

@@ -6,6 +6,7 @@ import datetime
 import time
 
 import pymysql
+import urllib3
 
 from requests_test import getSign
 import requests
@@ -35,17 +36,40 @@ def get_token(evn, mobile, password):
     :param password: 密文密码(可以抓包获得)
     :return: token
     """
+
     url = evn + '/member/action/v2/login'
-    headers = {'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8', 'version': '1090000',
-               'equipmentId': '869072034065382'}
-    request = {'appKey': '300001', 'area_code': '+86', 'equipment_id': '869072034065382', 'mobile': str(mobile),
-               'password': str(password), 'timestamp': str(get_timestamp()), 'token': '', 'uid': ''}
+    headers = {'Content-Type': 'application/x-www-form-urlencoded; charset=utf-8', 'version': '1160000',
+               'equipmentId': '302a0bb155cac42b8eb27a351e1af4aa'}
+    request = {'appKey': '300001', 'area_code': '+86', 'equipment_id': '9F9DEEEE707D4EF3A030062BCF6C0A82',
+               'mobile': mobile,
+               'password': password, 'timestamp': str(round(time.time() * 1000)), 'token': '',
+               'uid': ''}
     request['sign'] = getSign.getSign(request)
+    # 不报SSL证书认证警告
+    urllib3.disable_warnings()
+    r = requests.post(url, headers=headers, data=request, verify=False)
+    print("登陆接口登陆完毕<<<<<<<<<<<<<<")
+    print(r.json()['data']['token'])
+
+    # print("开始调用登陆接口>>>>>>>>>>>>")
+    # print(evn)
+    # url = evn + '/member/action/v2/login'
+    # headers = {'Content-Type': 'application/application/x-www-form-urlencoded; charset=utf-8', 'version': '1160000',
+    #            'equipmentId': '302a0bb155cac42b8eb27a351e1af4aa'}
+    # request = {'appKey': '300001', 'area_code': '+86', 'equipment_id': '9F9DEEEE707D4EF3A030062BCF6C0A82', 'mobile': str(mobile),
+    #         'password': str(password), 'timestamp': str(round(time.time() * 1000)), 'token': '', 'uid': ''}
+    # request['sign'] = getSign.getSign(request)
     try:
-        r = requests.post(url, headers=headers, data=request)
+        # # 不报SSL证书认证警告
+        # urllib3.disable_warnings()
+        # r = requests.post(url, data=request, headers=headers, verify=False)
+        # print("request<<<<<<<<<<<<<<")
+        # print(request)
+        # print(r.text)
+        # print(r.json()['data']['token'])
         return r.json()['data']['token']
-    except BaseException:
-        return 'Invalid parameter, please check!'
+    except BaseException as e:
+        return e
 
 
 def run_sqldaily_presell(sql):
@@ -67,3 +91,6 @@ def run_sqldaily_presell(sql):
         db.rollback()
     cursor.close()
     db.close()
+
+if __name__ == '__main__':
+    get_token("https://presell.fanhaoyue.com", "15906624143", "5b0f219ac7928fb89d069482c25c9d6f")
